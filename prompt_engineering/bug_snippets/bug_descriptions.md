@@ -1,22 +1,3 @@
-Here’s a complete set of buggy code snippets and their descriptions.
-Each file name and folder path is specified as requested.
-
----
-
-### 🗂 Folder structure
-
-```
-bug_snippets/
-├── bug1.py
-├── bug2.js
-├── bug3.java
-├── bug4.cpp
-├── bug5.py
-└── bug_descriptions.md
-```
-
----
-
 ### 🐛 **bug1.py** — Syntax Error
 
 ```python
@@ -148,5 +129,3 @@ print(sorted_numbers)
 * **Effect:** Raises an `AttributeError` because `math` module doesn’t have a `sort` function.
 
 ---
-
-Would you like me to zip these files into a downloadable archive (`bug_snippets.zip`)?
