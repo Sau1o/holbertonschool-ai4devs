@@ -34,6 +34,12 @@
   * **Input**: Code exhibiting slow execution.
   * **Output**: Optimization suggestions and sample revised code.
 
+* **Environment Replication**
+
+  * **Goal**: Recreate a developer’s runtime environment to replicate bugs.
+  * **Input**: Error logs, configuration files, and dependencies.
+  * **Output**: Step-by-step guide to reproduce and fix the issue.
+
 ## Documentation
 
 * **Auto-Doc Generation**
@@ -47,6 +53,12 @@
   * **Goal**: Simplify complex logic for knowledge transfer or onboarding.
   * **Input**: Block of source code.
   * **Output**: Human-readable explanation of how the code works.
+
+* **API Documentation Sync**
+
+  * **Goal**: Keep API documentation up to date with code changes.
+  * **Input**: API schema or endpoint definitions.
+  * **Output**: Updated markdown or OpenAPI spec reflecting current endpoints.
 
 ## Testing
 
@@ -62,6 +74,12 @@
   * **Input**: Function or existing test suite.
   * **Output**: List of uncovered edge cases and test suggestions.
 
+* **Integration Test Design**
+
+  * **Goal**: Build tests simulating multi-component interactions.
+  * **Input**: API workflow or full system design.
+  * **Output**: Integration test plan or code to validate component interoperability.
+
 ## Collaboration & Review
 
 * **Code Review Summaries**
@@ -75,6 +93,12 @@
   * **Goal**: Rewrite commit messages to follow best practices (e.g., Conventional Commits).
   * **Input**: Raw or unclear commit message.
   * **Output**: Concise, standardized commit message with clear intent.
+
+* **Merge Conflict Resolution**
+
+  * **Goal**: Help developers understand and resolve merge conflicts.
+  * **Input**: Git conflict diff.
+  * **Output**: Step-by-step conflict resolution guide or merged file suggestion.
 
 ## Code Generation
 
@@ -90,6 +114,12 @@
   * **Input**: Description of task or algorithm.
   * **Output**: Optimized code snippet in chosen programming language.
 
+* **Template Customization**
+
+  * **Goal**: Adapt existing code templates to new contexts or projects.
+  * **Input**: Template code and configuration details.
+  * **Output**: Customized implementation aligned with project needs.
+
 ## DevOps & Automation
 
 * **Script Generation**
@@ -103,3 +133,9 @@
   * **Goal**: Generate configuration files for automated testing and deployment.
   * **Input**: Project stack and environment details.
   * **Output**: YAML or JSON configuration for tools like GitHub Actions, Jenkins, or GitLab CI.
+
+* **Monitoring and Alerts**
+
+  * **Goal**: Set up alerts for system performance or deployment failures.
+  * **Input**: Metrics and thresholds.
+  * **Output**: Configured monitoring dashboard or alert policy.
