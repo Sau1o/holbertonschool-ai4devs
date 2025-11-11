@@ -14,6 +14,12 @@
   * **Input**: Code snippet or module.
   * **Output**: Reformatted code following defined style guides (e.g., PEP8, ESLint).
 
+* **Code Review Automation**
+
+  * **Goal**: Automatically detect code smells and suggest improvements.
+  * **Input**: Repository or function-level code.
+  * **Output**: List of potential issues with recommendations for fixes.
+
 ## Debugging
 
 * **Error Diagnosis**
@@ -69,3 +75,31 @@
   * **Goal**: Rewrite commit messages to follow best practices (e.g., Conventional Commits).
   * **Input**: Raw or unclear commit message.
   * **Output**: Concise, standardized commit message with clear intent.
+
+## Code Generation
+
+* **Boilerplate Creation**
+
+  * **Goal**: Quickly scaffold code for new modules, APIs, or components.
+  * **Input**: High-level requirements or API schema.
+  * **Output**: Pre-built code structure following best practices.
+
+* **Snippet Suggestion**
+
+  * **Goal**: Provide short reusable code snippets for common tasks.
+  * **Input**: Description of task or algorithm.
+  * **Output**: Optimized code snippet in chosen programming language.
+
+## DevOps & Automation
+
+* **Script Generation**
+
+  * **Goal**: Create automation scripts for deployment or configuration.
+  * **Input**: Description of desired automation task.
+  * **Output**: Bash, PowerShell, or Python script ready to execute.
+
+* **CI/CD Pipeline Templates**
+
+  * **Goal**: Generate configuration files for automated testing and deployment.
+  * **Input**: Project stack and environment details.
+  * **Output**: YAML or JSON configuration for tools like GitHub Actions, Jenkins, or GitLab CI.
