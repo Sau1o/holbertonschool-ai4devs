@@ -1,4 +1,4 @@
-## bug1.py (Syntax error)  
+## bug1.py 
 **Intended behavior:** Compute factorial(n) recursively and print factorial(5) == 120.  
 **Bug type:** SyntaxError — missing colon after function definition `def factorial(n)`  
 **What to look for / fix:** Add the missing colon and verify indentation.  
