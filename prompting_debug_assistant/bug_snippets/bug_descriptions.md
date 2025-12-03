@@ -1,6 +1,6 @@
 ## Bug 1 – bug1.py 
 **Intended behavior:** Compute factorial(n) recursively and print factorial(5) == 120.  
-**Bug type:** SyntaxError — missing colon after function definition `def factorial(n)`  
+**Issue type:** SyntaxError — missing colon after function definition `def factorial(n)`  
 **Notes:** Add the missing colon and verify indentation.  
 
 ---
@@ -14,7 +14,7 @@
 
 ## Bug 3 – bug3.java  
 **Intended behavior:** Parse the array of strings to integers and print their sum (10 + 30 = 40).  
-**Bug type:** RuntimeException — NullPointerException (or NumberFormatException if value invalid).  
+**Issue type:** RuntimeException — NullPointerException (or NumberFormatException if value invalid).  
 **Notes:** Validate inputs for null before parsing or filter/clean the input array.  
 
 ---
@@ -28,7 +28,7 @@
 
 ##  Bug 5 – bug5.js 
 **Intended behavior:** Return an array of names `["Alice","Bob"]` from a users collection.  
-**Bug type:** Type error / misuse — attempting to use `map` on an object.  
+**Issue type:** Type error / misuse — attempting to use `map` on an object.  
 **Notes:** Convert object to array first (e.g., `Object.values(users).map(u => u.name)`) or iterate Object.keys/Object.values.  
 
 ---
