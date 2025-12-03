@@ -1,8 +1,10 @@
-# Intended: Sum all numbers in a list
-numbers = [1, 2, 3, 4, 5]
+# Syntax error example: intended to compute factorial recursively
+def factorial(n)  # <-- missing colon causes a SyntaxError
+    if n < 0:
+        raise ValueError("Negative input not allowed")
+    if n == 0:
+        return 1
+    return n * factorial(n - 1)
 
-total = 0
-for n in numbers
-    total += n
-
-print("Sum:", total)
+if __name__ == "__main__":
+    print(factorial(5))
