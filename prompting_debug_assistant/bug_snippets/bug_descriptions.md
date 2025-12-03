@@ -12,10 +12,10 @@
 
 ---
 
-## Bug 3 – bug3.java
-**Intended behavior:** Parse the array of strings to integers and print their sum (10 + 30 = 40).
-**Bug type:** RuntimeException — NullPointerException (or NumberFormatException if value invalid).
-**Notes:** Validate inputs for null before parsing or filter/clean the input array.
+## Bug 3 – bug3.java  
+**Intended behavior:** Parse the array of strings to integers and print their sum (10 + 30 = 40).  
+**Bug type:** RuntimeException — NullPointerException (or NumberFormatException if value invalid).  
+**Notes:** Validate inputs for null before parsing or filter/clean the input array.  
 
 ---
 
