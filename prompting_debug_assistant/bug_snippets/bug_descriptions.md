@@ -32,3 +32,8 @@
 **What to look for / fix:** Convert object to array first (e.g., `Object.values(users).map(u => u.name)`) or iterate Object.keys/Object.values.  
 
 ---
+
+## Bug 6 – bug6.js
+**Intended Behavior**: Read a text file asynchronously and print its contents. 
+**Issue Type**: Library misuse. 
+**Notes**: Callback parameters are reversed (`data, err` instead of `err, data`), so the error and data are misinterpreted.
