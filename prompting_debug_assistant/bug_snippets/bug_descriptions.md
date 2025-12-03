@@ -1,7 +1,7 @@
-## Bug 1 – bug1.py
-**Intended Behavior**: Sum all numbers in a list and print the result.  
-**Issue Type**: Syntax error.  
-**Notes**: Missing colon after `for n in numbers` causes a `SyntaxError` and prevents execution.
+## bug1.py (Syntax error)
+**Intended behavior:** Compute factorial(n) recursively and print factorial(5) == 120.
+**Bug type:** SyntaxError — missing colon after function definition `def factorial(n)`
+**What to look for / fix:** Add the missing colon and verify indentation.
 
 ---
 
