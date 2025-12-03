@@ -13,9 +13,9 @@
 ---
 
 ## Bug 3 – bug3.java
-**Intended Behavior**: Print the third element in an integer array.  
-**Issue Type**: Runtime exception.  
-**Notes**: Accessing `nums[2]` in an array of size 2 causes an `ArrayIndexOutOfBoundsException`.
+**Intended behavior:** Parse the array of strings to integers and print their sum (10 + 30 = 40).
+**Bug type:** RuntimeException — NullPointerException (or NumberFormatException if value invalid).
+**Notes:** Validate inputs for null before parsing or filter/clean the input array.
 
 ---
 
@@ -32,8 +32,3 @@
 **What to look for / fix:** Convert object to array first (e.g., `Object.values(users).map(u => u.name)`) or iterate Object.keys/Object.values.  
 
 ---
-
-## Bug 6 – bug6.js
-**Intended Behavior**: Read a text file asynchronously and print its contents.  
-**Issue Type**: Library misuse.  
-**Notes**: Callback parameters are reversed (`data, err` instead of `err, data`), so the error and data are misinterpreted.
