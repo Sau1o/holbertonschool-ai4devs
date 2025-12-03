@@ -6,9 +6,9 @@
 ---
 
 ## Bug 2 – bug2.js
-**Intended Behavior**: Return `true` if a number is even, and `false` otherwise.  
-**Issue Type**: Logical error.  
-**Notes**: The condition uses `num % 2 == 1` instead of `num % 2 == 0`, inverting the logic for even/odd numbers.
+**Intended behavior:** Return the nth Fibonacci number (0-indexed). Example: fib(6) == 8.  
+**Issue type:** Logical error — incorrect update order inside the loop causing calculation to be wrong.  
+**Notes:** Update both variables in a way that preserves previous values (use tuple-style swap or temporary variable).  
 
 ---
 
