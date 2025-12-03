@@ -26,10 +26,10 @@
 
 ---
 
-## Bug 5 – bug5.py
-**Intended Behavior**: Calculate the average of a list of grades.  
-**Issue Type**: Data type misuse.  
-**Notes**: Elements are strings; `sum(grades)` raises `TypeError`. Must convert to integers or floats before summing.
+## bug5.js (Misuse of data types)
+**Intended behavior:** Return an array of names `["Alice","Bob"]` from a users collection.
+**Bug type:** Type error / misuse — attempting to use `map` on an object.
+**What to look for / fix:** Convert object to array first (e.g., `Object.values(users).map(u => u.name)`) or iterate Object.keys/Object.values.
 
 ---
 
