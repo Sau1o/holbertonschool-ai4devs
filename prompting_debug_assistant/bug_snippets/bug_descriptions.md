@@ -1,7 +1,7 @@
 ## Bug 1 – bug1.py 
 **Intended behavior:** Compute factorial(n) recursively and print factorial(5) == 120.  
 **Bug type:** SyntaxError — missing colon after function definition `def factorial(n)`  
-**What to look for / fix:** Add the missing colon and verify indentation.  
+**Notes:** Add the missing colon and verify indentation.  
 
 ---
 
@@ -29,7 +29,7 @@
 ##  Bug 5 – bug5.js 
 **Intended behavior:** Return an array of names `["Alice","Bob"]` from a users collection.  
 **Bug type:** Type error / misuse — attempting to use `map` on an object.  
-**What to look for / fix:** Convert object to array first (e.g., `Object.values(users).map(u => u.name)`) or iterate Object.keys/Object.values.  
+**Notes:** Convert object to array first (e.g., `Object.values(users).map(u => u.name)`) or iterate Object.keys/Object.values.  
 
 ---
 
