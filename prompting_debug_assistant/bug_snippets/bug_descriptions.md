@@ -26,10 +26,10 @@
 
 ---
 
-## bug5.js (Misuse of data types)
-**Intended behavior:** Return an array of names `["Alice","Bob"]` from a users collection.
-**Bug type:** Type error / misuse — attempting to use `map` on an object.
-**What to look for / fix:** Convert object to array first (e.g., `Object.values(users).map(u => u.name)`) or iterate Object.keys/Object.values.
+## bug5.js (Misuse of data types)  
+**Intended behavior:** Return an array of names `["Alice","Bob"]` from a users collection.  
+**Bug type:** Type error / misuse — attempting to use `map` on an object.  
+**What to look for / fix:** Convert object to array first (e.g., `Object.values(users).map(u => u.name)`) or iterate Object.keys/Object.values.  
 
 ---
 
