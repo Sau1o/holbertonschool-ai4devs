@@ -36,7 +36,16 @@
 
 ## Bug Report – bug5.js
 - **File Name**: `bug5.js`
-- **Bug Summary**: Attempting to use `.map()` on a plain object caused a TypeError.  
-- **Root Cause**: The `users` variable was an Object, but the code tried to use `.map()`, which is an Array prototype method. Objects are not directly iterable via `.map()`.  
-- **Resolution**: Converted the object values into an array using `Object.values(u)` before calling `.map()`, enabling efficient iteration over the user data.  
-- **Lesson Learned**: Check data types before applying specific methods. Use `Object  
+- **Bug Summary**: Attempting to use `.map()` on a plain object caused a TypeError / Logic Error.  
+- **Root Cause**: The `users` variable was an Object, but the code tried to use `.map()` (or implied its use), which is an Array prototype method. Objects are not directly iterable via `.map()` without conversion.  
+- **Resolution**: Converted the object values into an array using `Object.values(u)` before calling `.map()`, enabling efficient and correct iteration over the user data.  
+- **Lesson Learned**: JavaScript Objects do not possess Array methods like `.map()` by default. To iterate over an object's data, you must explicitly convert it to an array first using static methods such as `Object.values()`, `Object.keys()`, or `Object.entries()`.  
+
+---
+
+## Bug Report – bug6.js
+- **File Name**: `bug6.js`  
+- **Bug Summary**: File reading operation printed garbage or failed to handle errors correctly.  
+- **Root Cause**: The callback function signature `(data, err)` was inverted. The Node.js `fs.readFile` method uses an "error-first" pattern (`err, data`), causing the error object to be interpreted as content.  
+- **Resolution**: Swapped the parameters in the callback function to `(err, data)` to match the standard Node.js API signature.  
+- **Lesson Learned**: Always consult the official documentation for API callback signatures, especially when working with standard libraries like Node.js `fs`, which rely on the specific order of arguments.  
