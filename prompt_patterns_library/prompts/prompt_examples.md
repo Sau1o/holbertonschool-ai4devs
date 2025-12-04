@@ -1,162 +1,148 @@
 # Prompt Testing Examples
 
-## Example 1 – Refactoring Legacy Code
-**Template Used**: /prompts/refactoring_legacy_code.md  
-**Prompt**:  
+## Example 1: Refactoring
+**Template Source**: `/prompts/refactoring.md`  
+
+**Prompt Used (Filled)**:  
 **Role**: Senior Software Engineer  
-**Task**: Refactor the provided legacy Java code to use modern language features and improve maintainability.  
-**Input Placeholder**:  
-\`\`\`java
-public List<String> filterNames(List<String> names) {
-    List<String> result = new ArrayList<>();
-    for (String name : names) {
-        if (name.startsWith("A")) {
-            result.add(name.toUpperCase());
-        }
-    }
-    return result;
-}
-\`\`\`
+**Task**: Refactor the provided code to improve readability and performance.  
+**Input Data**:  
+\`\`\`python
+def f(x): return x*2 if x > 0 else 0
+\`\`\`  
+**Constraints**: Keep the same business logic, but update syntax to modern standards.  
+**Expected Output**: The optimized code block followed by a list of changes.  
 
-**AI Output**:  
-\`\`\`java
-public List<String> filterNames(List<String> names) {
-    return names.stream()
-            .filter(name -> name.startsWith("A"))
-            .map(String::toUpperCase)
-            .collect(Collectors.toList());
-}
+**AI Output Received**:  
+\`\`\`python
+def calculate_double_positive(value: int) -> int:
+    """Returns double the value if positive, else zero."""
+    if value > 0:
+        return value * 2
+    return 0
 \`\`\`
-**Changes Made**:  
-- Replaced imperative \`for\` loop with declarative \`Stream API\`.  
-- Used method reference \`String::toUpperCase\` for cleaner syntax.  
-- Removed temporary \`result\` list creation.  
+**Changes**: Renamed function for clarity; added type hinting; added docstring.  
 
-**Feedback**: The output correctly utilized Java 8+ features to reduce boilerplate. The logic remains identical but is much more readable.  
+**Feedback**:  
+- **Structure**: Pass.  
+- **Accuracy**: The logic was preserved correctly.  
+- **Constraint Check**: Variable renaming improved readability as requested.  
 
 ---
 
-## Example 2 – Security Auditing
-**Template Used**: /prompts/security_auditing.md  
-**Prompt**:  
+## Example 2: Security Auditing
+**Template Source**: `/prompts/security_auditing.md`  
+
+**Prompt Used (Filled)**:  
 **Role**: Application Security Specialist  
-**Task**: Audit the following Python code for common security vulnerabilities (SQL Injection, XSS, etc.) and suggest fixes.  
-**Input Placeholder**:  
-\`\`\`python
-user_id = request.args.get('id')
-query = f"SELECT * FROM users WHERE id = {user_id}"
-cursor.execute(query)
-\`\`\`
+**Task**: Analyze the code below for security vulnerabilities.  
+**Input Data**:  
+\`\`\`javascript
+const query = "SELECT * FROM users WHERE name = '" + req.body.name + "'";
+db.execute(query);
+\`\`\`  
+**Constraints**: Focus on OWASP Top 10 vulnerabilities.  
+**Expected Output**: A list of vulnerabilities found (Severity: Issue) and a patched code version.  
 
-**AI Output**:  
-**Vulnerability Report**:  
-- **[Critical]: SQL Injection** Directly inserting \`user_id\` into the query string allows attackers to manipulate the database execution (e.g., \`id=1 OR 1=1\`).  
+**AI Output Received**:  
+**Vulnerability Found**:  
+- **Critical**: SQL Injection. Concatenating user input directly into queries.  
+**Patched Code**:  
+\`\`\`javascript
+const query = "SELECT * FROM users WHERE name = ?";
+db.execute(query, [req.body.name]);
+\`\`\`  
 
-**Remediation**:  
-\`\`\`python
-user_id = request.args.get('id')
-# Use parameterized queries to treat input as data, not executable code
-query = "SELECT * FROM users WHERE id = %s"
-cursor.execute(query, (user_id,))
-\`\`\`
-
-**Feedback**: The model correctly identified the SQL injection risk inherent in f-strings for queries and provided the standard parameterized solution.  
+**Feedback**:  
+- **Structure**: Pass.  
+- **Accuracy**: Correctly identified SQL Injection.  
+- **Constraint Check**: Provided the parameterized query fix as expected.  
 
 ---
 
-## Example 3 – Docstring Generation
-**Template Used**: /prompts/docstring_generation.md  
-**Prompt**:  
+## Example 3: Docstring Generation
+**Template Source**: `/prompts/docstring_generation.md`  
+
+**Prompt Used (Filled)**:  
 **Role**: Technical Writer  
-**Task**: Generate comprehensive documentation for the provided function adhering to Google Style standards.  
-**Input Placeholder**:  
-\`\`\`python
-def calculate_compound_interest(principal, rate, time, n):
-    return principal * (1 + rate/n) ** (n*time)
-\`\`\`
-
-**AI Output**:  
-\`\`\`python
-def calculate_compound_interest(principal, rate, time, n):
-    """Calculates the compound interest.
-
-    Args:
-        principal (float): The initial amount of money.
-        rate (float): The annual interest rate (in decimal form).
-        time (int): The number of years the money is invested or borrowed for.
-        n (int): The number of times that interest is compounded per year.
-
-    Returns:
-        float: The amount of money accumulated after n years, including interest.
-    """
-    return principal * (1 + rate/n) ** (n*time)
-\`\`\`
-
-**Feedback**: Excellent adherence to Google Style. It correctly inferred the types (float/int) based on typical financial context.  
-
----
-
-## Example 4 – Unit Test Generation
-**Template Used**: /prompts/unit_test_generation.md  
-**Prompt**:  
-**Role**: QA Automation Engineer  
-**Task**: Write a complete unit test suite for the given function using Jest (JavaScript).  
-**Input Placeholder**:  
-\`\`\`javascript
-function divide(a, b) {
-    if (b === 0) throw new Error("Cannot divide by zero");
-    return a / b;
-}
-\`\`\`
-
-**AI Output**:  
-\`\`\`javascript
-describe('divide function', () => {
-    // Happy Path
-    test('should correctly divide two positive numbers', () => {
-        expect(divide(10, 2)).toBe(5);
-    });
-
-    test('should handle negative numbers', () => {
-        expect(divide(-10, 2)).toBe(-5);
-    });
-
-    // Boundary/Edge Case
-    test('should throw error when dividing by zero', () => {
-        expect(() => divide(5, 0)).toThrow("Cannot divide by zero");
-    });
-});
-\`\`\`
-
-**Feedback**: The model covered standard cases and correctly used \`.toThrow\` for the exception.  
-
----
-
-## Example 5 – Architecture Explanation
-**Template Used**: /prompts/architecture_explanation.md  
-**Prompt**:  
-**Role**: Senior Software Architect  
-**Task**: Explain the design patterns and architectural structure of the code using simple analogies for a junior developer.  
-**Input Placeholder**:  
+**Task**: specific documentation for the function.  
+**Input Data**:  
 \`\`\`java
-public class DatabaseConnection {
-    private static DatabaseConnection instance;
-    private DatabaseConnection() {}
-    public static synchronized DatabaseConnection getInstance() {
-        if (instance == null) {
-            instance = new DatabaseConnection();
-        }
-        return instance;
-    }
-}
-\`\`\`
+public int add(int a, int b) { return a + b; }
+\`\`\`  
+**Constraints**: Follow the Javadoc format.  
+**Expected Output**: The code block with correct comments/docstrings inserted.  
 
-**AI Output**:  
-**Design Pattern Identified**: Singleton Pattern.  
+**AI Output Received**:  
+\`\`\`java
+/**
+ * Adds two integers.
+ * * @param a The first integer.
+ * @param b The second integer.
+ * @return The sum of a and b.
+ */
+public int add(int a, int b) { return a + b; }
+\`\`\`  
 
-**Analogy**:  
-Imagine the President's office in a country. There can only be **one** President at a time.  
-The \`private DatabaseConnection()\` is like locking the doors so no one can just walk in and declare themselves President.  
-The \`getInstance()\` method is the official receptionist: everyone is directed to the **same, single person**.  
+**Feedback**:  
+- **Structure**: Pass.  
+- **Accuracy**: Javadoc tags (@param, @return) are correct.  
+- **Constraint Check**: Style guide was respected.  
 
-**Feedback**: The analogy is clear and relatable for a beginner. It explains the purpose of the private constructor effectively.
+---
+
+## Example 4: Unit Test Generation
+**Template Source**: `/prompts/unit_test_generation.md`  
+
+**Prompt Used (Filled)**:  
+**Role**: QA Automation Engineer  
+**Task**: Write unit tests for the provided logic.  
+**Input Data**:  
+\`\`\`python
+def is_even(n): return n % 2 == 0
+\`\`\`  
+**Constraints**: Use the PyTest framework. Cover happy paths and edge cases.  
+**Expected Output**: Complete, runnable test file code.  
+
+**AI Output Received**:  
+\`\`\`python
+import pytest
+from main import is_even
+
+def test_is_even_positive():
+    assert is_even(4) == True
+
+def test_is_odd_positive():
+    assert is_even(5) == False
+
+def test_zero():
+    assert is_even(0) == True
+\`\`\`  
+
+**Feedback**:  
+- **Structure**: Pass.  
+- **Accuracy**: Tests cover the basic logic logic accurately.  
+- **Constraint Check**: PyTest syntax was used correctly.  
+
+---
+
+## Example 5: Error Analysis
+**Template Source**: `/prompts/error_analysis.md`  
+
+**Prompt Used (Filled)**:  
+**Role**: DevOps Engineer  
+**Task**: Analyze the stack trace to find the root cause.  
+**Input Data**:  
+\`TypeError: Cannot read properties of undefined (reading 'map') at renderList\`  
+**Constraints**: Explain in simple terms suitable for a junior developer.  
+**Expected Output**: Summary of the error, the specific file/line responsible, and the fix.  
+
+**AI Output Received**:  
+**Summary**: You are trying to loop through a list that doesn't exist yet.  
+**Location**: `renderList` function.  
+**Fix**: Add a check before the map: `if (list && list.length) { list.map(...) }`.  
+
+**Feedback**:  
+- **Structure**: Pass.  
+- **Accuracy**: Correct interpretation of the JS error.  
+- **Constraint Check**: The explanation was simplified for a junior level as requested.
