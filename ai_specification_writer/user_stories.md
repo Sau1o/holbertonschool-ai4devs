@@ -1,141 +1,81 @@
-User Stories: SmartPantry
+# User Stories: SmartPantry
 
-User Story 1: Rapid Inventory Entry
+### User Story 1: Rapid Inventory Entry
 
 As a busy parent, I want to scan grocery barcodes using my phone camera so that I can quickly add items to my digital inventory without manual typing.
 
-Acceptance Criteria:
+**Acceptance Criteria**:
 
-Camera interface opens within 2 seconds.
+* Camera interface opens within 2 seconds.
 
-Barcode is recognized and matches product details from the database.
+* Barcode is recognized and matches product details from the database.
 
-Item is added to the "Pantry" list with a default expiration date.
+* Item is added to the "Pantry" list with a default expiration date.
 
-Priority: MVP
+**Priority**: MVP
 
-User Story 2: Smart Recipe Suggestions
+### User Story 2: Smart Recipe Suggestions
 
 As a home cook, I want to view a list of recipes based on ingredients I currently have so that I can cook dinner without going to the store.
 
-Acceptance Criteria:
+**Acceptance Criteria**:
 
-"Suggest Recipes" button queries current inventory.
+* "Suggest Recipes" button queries current inventory.
 
-Results prioritize recipes where the user has >80% of ingredients.
+* Results prioritize recipes where the user has >80% of ingredients.
 
-Missing ingredients are clearly highlighted in the recipe view.
+* Missing ingredients are clearly highlighted in the recipe view.
 
-Priority: MVP
+**Priority**: MVP
 
-User Story 3: Expiration Alerts
+### User Story 3: Expiration Alerts
 
 As a budget-conscious shopper, I want to receive push notifications when items are approaching their expiration dates so that I can use them before they spoil to save money.
 
-Acceptance Criteria:
+**Acceptance Criteria**:
 
-User can set custom alert thresholds (e.g., 2 days before).
+* User can set custom alert thresholds (e.g., 2 days before).
 
-Notification deep-links to recipes using the expiring ingredient.
+* Notification deep-links to recipes using the expiring ingredient.
 
-User can mark the item as "Consumed" or "Tossed" directly from the alert.
+* User can mark the item as "Consumed" or "Tossed" directly from the alert.
 
-Priority: MVP
+**Priority**: MVP
 
-User Story 4: Manual Stock Adjustment
+### User Story 4: Manual Stock Adjustment
 
 As a disorganized shopper, I want to manually adjust stock levels (e.g., "half a bottle of milk") so that I know exactly how much of an item is left without guessing.
 
-Acceptance Criteria:
+**Acceptance Criteria**:
 
-Detail view of an item allows quantity adjustment (slider or percentage).
+* Detail view of an item allows quantity adjustment (slider or percentage).
 
-Visual indicator changes color (green to red) as quantity decreases.
+* Visual indicator changes color (green to red) as quantity decreases.
 
-Updates sync instantly to the cloud.
+* Updates sync instantly to the cloud.
 
-Priority: High
+**Priority**: High
 
-User Story 5: Dietary Restriction Filters
+### User Story 5: Dietary Restriction Filters
 
 As a user with dietary restrictions, I want to set my profile to filter out allergens (e.g., peanuts, gluten) so that I can ensure all recipe suggestions are safe for me to eat.
 
-Acceptance Criteria:
+**Acceptance Criteria**:
 
-Profile settings page includes a checklist of common allergens.
+* Profile settings page includes a checklist of common allergens.
 
-Recipe search results automatically exclude dishes containing selected allergens.
+* Recipe search results automatically exclude dishes containing selected allergens.
 
-Warning label appears if a scanned product contains a flagged ingredient.
+* Warning label appears if a scanned product contains a flagged ingredient.
 
-Priority: High
+**Priority**: High
 
-User Story 6: Household Inventory Sharing
+### User Story 6: Household Inventory Sharing
 
 As a family manager, I want to share my inventory and shopping list with other household members so that I can coordinate shopping and avoid buying duplicate items.
 
-Acceptance Criteria:
+**Acceptance Criteria**:
 
-User can invite members via email address.
+* User can invite members via email address.
 
-Changes made by one user (e.g., crossing off a shopping item) reflect on all devices in real-time.
-
-Activity log shows who added or removed items.
-
-Priority: High
-
-User Story 7: Voice Command Entry
-
-As a user who hates typing, I want to add produce items (which have no barcodes) using voice commands so that I can keep my inventory complete with minimal effort.
-
-Acceptance Criteria:
-
-Microphone icon activates voice listening mode.
-
-System parses "Add 5 apples and 2 pounds of carrots" correctly.
-
-Items are categorized automatically (e.g., under "Produce").
-
-Priority: Medium
-
-User Story 8: Waste Reduction Analytics
-
-As an eco-conscious user, I want to see a dashboard of my food waste statistics so that I can explicitly track my environmental impact and improve my consumption habits.
-
-Acceptance Criteria:
-
-Dashboard displays monthly "Wasted vs. Consumed" percentage.
-
-Estimated money lost due to waste is calculated.
-
-User receives a "Green Badge" for reducing waste month-over-month.
-
-Priority: Medium
-
-User Story 9: Receipt Scanning
-
-As a frequent shopper, I want to upload a photo of my grocery receipt so that I can bulk-add multiple items at once without individual scanning.
-
-Acceptance Criteria:
-
-Image upload parses text via OCR.
-
-System matches receipt text to database items.
-
-User is presented with a verification screen to confirm items before final addition.
-
-Priority: Medium
-
-User Story 10: Ingredient Substitution
-
-As a curious cook, I want to substitute missing ingredients in a recipe so that I can still cook a meal even if I lack one specific item.
-
-Acceptance Criteria:
-
-"Find Substitute" button appears next to missing ingredients.
-
-System suggests viable alternatives based on food chemistry/category.
-
-User can select a substitute to update the recipe instructions.
-
-Priority: Low
+* Changes made by one user (e.g., crossing off a shopping item) reflect on all devices in real-time
