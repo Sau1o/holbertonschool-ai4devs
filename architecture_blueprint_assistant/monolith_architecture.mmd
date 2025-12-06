@@ -1,0 +1,16 @@
+graph TD
+  A[Client Application Web/Mobile] --> B[Load Balancer]
+  B --> C[TechEvent Monolith Server]
+  
+  subgraph Internal Modules
+    C --> D[Authentication Module]
+    C --> E[Ticketing & Sales Module]
+    C --> F[Schedule Management Module]
+    C --> G[Networking/Matchmaking Module]
+    C --> H[Sponsor Portal Module]
+    C --> I[Notification Module]
+  end
+
+  C --> J[(Central Relational Database)]
+  E --> K[External Payment Gateway]
+  I --> L[Email Service Provider]
