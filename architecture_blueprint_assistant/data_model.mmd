@@ -1,0 +1,60 @@
+erDiagram
+    USER ||--o{ ORDER : places
+    USER ||--o{ EVENT : organizes
+    EVENT ||--|{ TICKET_TYPE : offers
+    EVENT ||--o{ SESSION : includes
+    ORDER ||--|{ TICKET_ISSUED : generates
+    TICKET_TYPE ||--o{ TICKET_ISSUED : defines
+
+    USER {
+        uuid id PK
+        string email
+        string password_hash
+        string full_name
+        enum role "Attendee, Organizer, Admin"
+    }
+
+    EVENT {
+        uuid id PK
+        string title
+        text description
+        datetime start_date
+        datetime end_date
+        uuid organizer_id FK
+        string location
+    }
+
+    SESSION {
+        uuid id PK
+        uuid event_id FK
+        string title
+        datetime start_time
+        uuid speaker_id
+        string room_name
+    }
+
+    TICKET_TYPE {
+        uuid id PK
+        uuid event_id FK
+        string category_name "VIP, Regular, Student"
+        decimal price
+        int initial_quota
+        int available_quantity
+    }
+
+    ORDER {
+        uuid id PK
+        uuid user_id FK
+        datetime created_at
+        decimal total_amount
+        enum status "Pending, Paid, Cancelled"
+        string payment_reference
+    }
+
+    TICKET_ISSUED {
+        uuid id PK
+        uuid order_id FK
+        uuid ticket_type_id FK
+        string qr_code_data
+        boolean is_checked_in
+    }
