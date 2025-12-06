@@ -1,0 +1,31 @@
+graph TD
+  Client[Client Apps Web/Mobile] --> Gateway[API Gateway / Ingress]
+
+  subgraph Backend Services
+    Gateway --> Auth[Identity Service]
+    Gateway --> Event[Event Catalog Service]
+    Gateway --> Ticket[Ticketing Service]
+    Gateway --> Network[Networking Service]
+    Gateway --> Sponsor[Sponsor Service]
+    
+    Ticket --> Payment[Payment Service]
+    
+    %% Async Communication (Message Broker)
+    Ticket -.-> Broker((Message Broker))
+    Payment -.-> Broker
+    Event -.-> Broker
+    
+    Broker -.-> Notif[Notification Service]
+  end
+
+  subgraph Data Layer
+    Auth --> DB1[(Auth DB)]
+    Event --> DB2[(Event DB)]
+    Ticket --> DB3[(Orders DB)]
+    Network --> DB4[(Graph DB)]
+    Sponsor --> DB5[(Sponsor DB)]
+    Payment --> DB6[(Payment DB)]
+  end
+  
+  Payment --> ExtPay[External Payment Provider]
+  Notif --> ExtEmail[Email/Push Provider]
