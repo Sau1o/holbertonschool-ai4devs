@@ -1,0 +1,45 @@
+{
+	"info": {
+		"_postman_id": "b5a9c9c1-1234-5678-90ab-cdef12345678",
+		"name": "API Prototype Collection",
+		"schema": "[https://schema.getpostman.com/json/collection/v2.1.0/collection.json](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)"
+	},
+	"item": [
+		{
+			"name": "Get Products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/products",
+					"host": ["{{base_url}}"],
+					"path": ["products"]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Product",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":=\"Product A\",\n    \"price\": 100\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/products",
+					"host": ["{{base_url}}"],
+					"path": ["products"]
+				}
+			},
+			"response": []
+		}
+	]
+}
