@@ -2,8 +2,8 @@
   "openapi": "3.0.3",
   "info": {
     "title": "TaskFlow API",
-    "description": "Full CRUD API for Projects and Tasks including List operations for both.",
-    "version": "1.4.0"
+    "description": "API specification with explicit pagination schemas and full CRUD.",
+    "version": "1.5.0"
   },
   "servers": [
     {
@@ -33,7 +33,63 @@
           }
         }
       },
+      "PaginationMeta": {
+        "type": "object",
+        "properties": {
+          "totalItems": {
+            "type": "integer",
+            "example": 100
+          },
+          "totalPages": {
+            "type": "integer",
+            "example": 5
+          },
+          "currentPage": {
+            "type": "integer",
+            "example": 1
+          },
+          "limit": {
+            "type": "integer",
+            "example": 20
+          }
+        }
+      },
       "Project": {
         "type": "object",
         "required": [
           "id",
+          "name"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "Task": {
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "status",
+          "projectId"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "TODO",
