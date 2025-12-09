@@ -1,17 +1,21 @@
 # API Iteration Log – TaskFlow API
 
-This document tracks the iterative improvements made to the TaskFlow API prototype based on testing and specification alignment.
+This document records the iterative improvements made to the source code to address bugs, missing features, and stability issues.
 
 ## Iteration 1
-- **Issue:** Missing Endpoint Implementation (Spec Mismatch).
-  - *Description:* The OpenAPI specification (v1.5.0) defined an endpoint `GET /projects/{id}/tasks` to list tasks within a specific project. However, the initial prototype in `src/index.js` only implemented the global `GET /tasks/:taskId` and `POST` creation, missing the project-specific list view.
-- **AI Suggestion:** Implement a new GET route `/projects/:projectId/tasks`. This route should validate if the project exists first, then filter the global `tasks` array to return only items matching the requested `projectId`.
-- **Fix:** Added the following endpoint to `src/index.js`:
+- **Problem identified:**
+  The API lacked a specific endpoint to list tasks belonging to a single project. The only way to see tasks was to access them individually by ID, which made the frontend integration impossible for the "Project Board" view.
+- **AI Suggestion:**
+  Implement a new nested GET route `/projects/:projectId/tasks`. This route should first validate if the project exists and then filter the global tasks array to return only those matching the `projectId`.
+- **Final fix:**
+  Added the following endpoint to `src/index.js`:
   ```javascript
+  // Added in Iteration 1
   app.get('/projects/:projectId/tasks', (req, res) => {
       const project = projects.find(p => p.id === req.params.projectId);
-      if (!project) return res.status(404).json({ code: 404, message: "Project not found" });
-      
+      if (!project) {
+          return res.status(404).json({ code: 404, message: "Project not found" });
+      }
       const projectTasks = tasks.filter(t => t.projectId === req.params.projectId);
       res.json(projectTasks);
   });
