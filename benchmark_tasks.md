@@ -10,10 +10,13 @@ This document defines a set of coding tasks designed to benchmark development sk
 
 **Inputs**: 
 - JSON payload with the following fields:
+  - `name`: string (required, 2-50 characters)
+  - `email`: string (required, valid email format)
+- Example:
   ```json
   {
-    "name": "string (required, 2-50 characters)",
-    "email": "string (required, valid email format)"
+    "name": "John Doe",
+    "email": "john@example.com"
   }
   ```
 
@@ -68,11 +71,23 @@ This document defines a set of coding tasks designed to benchmark development sk
 
 **Outputs**:
 - Transformed object containing:
+  - `filtered_users`: array of user objects matching the criteria
+  - `average_salary`: number (average of salaries)
+  - `total_count`: number (count of filtered users)
+- Example:
   ```json
   {
-    "filtered_users": ["array of users matching criteria"],
-    "average_salary": "number",
-    "total_count": "number"
+    "filtered_users": [
+      {
+        "id": 1,
+        "name": "Alice",
+        "age": 28,
+        "department": "Engineering",
+        "salary": 85000
+      }
+    ],
+    "average_salary": 85000,
+    "total_count": 1
   }
   ```
 
@@ -182,14 +197,14 @@ This document defines a set of coding tasks designed to benchmark development sk
   - `clear()`: remove all values
 
 **Outputs**:
-- For `get(key)`: Returns the value if exists and not expired, otherwise null/undefined
+- For `get(key)`: Returns the value if exists and not expired, otherwise null
 - For `set(key, value)`: Returns boolean indicating success
 - For `delete(key)`: Returns boolean indicating if key existed
 
 **Acceptance Criteria**:
 - Stores key-value pairs with TTL
 - Returns value for valid, non-expired keys
-- Returns null/undefined for expired or non-existent keys
+- Returns null for expired or non-existent keys
 - Automatically removes expired entries on access
 - Implements LRU eviction when max_size is reached
 - Uses default_ttl when no TTL is specified for set()
