@@ -1,0 +1,11 @@
+languages:
+  python:
+    style_guide: "black"
+    type_hints: true
+  javascript:
+    style_guide: "airbnb"
+    semicolons: true
+workflows:
+  code_review:
+    enabled: true
+    focus_areas: ["security", "performance"]
