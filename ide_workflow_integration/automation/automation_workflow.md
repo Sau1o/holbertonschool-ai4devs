@@ -1,34 +1,33 @@
-# IDE Automation Workflow
+# IDE Automation Workflow Strategy
 
-## 1. Current IDE & Tools (Context)
-To establish the productivity baseline for these automations, the current environment is defined as:
+## 1. Current IDE Setup & Tools
+To provide context for the automations below, here is the current environment:
 - **IDE:** Visual Studio Code
-- **Extensions:** GitHub Copilot, Java Extension Pack, Python, ESLint.
-- **Tools:** Docker, n8n (local), WSL2.
+- **Extensions:** GitHub Copilot, Java Extension Pack (Spring Boot), Python, ESLint
+- **Workflow Tools:** Docker, WSL2, n8n (local)
 
-## 2. Pain Points Identified
-The following bottlenecks are addressed by the automations below:
-1.  **Manual Boilerplate:** Excessive time spent on repetitive Java/Spring DTOs and test classes.
-2.  **Documentation Drift:** API docs and code comments are frequently out of sync.
-3.  **Slow Debugging Cycle:** Context switching required to run manual scripts.
+## 2. Pain Points Analysis
+The following 3 pain points are directly addressed by the automation scripts:
+- **Pain Point 1: Documentation Drift.** API documentation and code comments frequently fall out of sync, causing integration errors.
+- **Pain Point 2: Manual Boilerplate.** Developers spend excessive time writing repetitive DTOs and test scaffolding, slowing down feature delivery.
+- **Pain Point 3: Slow Debugging Cycle.** Context switching between the IDE and terminal for routine tasks breaks concentration and flow.
 
-## 3. Productivity Metrics
-- **Avg task completion:** 3.5 hours (Target: Reduce via boilerplating)
-- **Bug fix turnaround:** 4 hours (Target: Reduce via auto-tests)
-- **Weekly commits:** ~15 commits (Target: Increase throughput)
+## 3. Productivity Metrics Baseline
+- **Average Time per Task:** 3.5 hours (Target: Reduce via automation)
+- **Bug Fix Turnaround:** 4 hours (Target: Improve via auto-tests)
+- **Weekly Commits:** ~15 commits (Target: Increase throughput)
 
 ## 4. Automation Configurations
 
-### VS Code Tasks Configuration
-File: `automation/tasks.json`
-This configuration integrates the scripts directly into the IDE workflow.
+### A. Task Runner Configuration (`tasks.json`)
+This configuration integrates the Python and Shell scripts into the VS Code "Run Task" menu.
 
 ```json
 {
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Auto-Doc: Generate Javadoc",
+      "label": "AI: Auto-Generate Docs",
       "type": "shell",
       "command": "python3",
       "args": [
@@ -39,11 +38,10 @@ This configuration integrates the scripts directly into the IDE workflow.
         "${fileExtname}"
       ],
       "group": "build",
-      "presentation": { "reveal": "silent" },
-      "detail": "Addresses Documentation Drift"
+      "detail": "Solves Pain Point 1 (Documentation Drift)"
     },
     {
-      "label": "Test-Scaffold: Create Unit Test",
+      "label": "AI: Scaffold Tests",
       "type": "shell",
       "command": "bash",
       "args": [
@@ -52,8 +50,7 @@ This configuration integrates the scripts directly into the IDE workflow.
         "${fileDirname}"
       ],
       "group": "test",
-      "presentation": { "reveal": "always" },
-      "detail": "Addresses Manual Boilerplate"
+      "detail": "Solves Pain Point 2 (Manual Boilerplate)"
     }
   ]
 }
