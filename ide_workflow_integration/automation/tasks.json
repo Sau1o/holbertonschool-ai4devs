@@ -2,7 +2,7 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "AI: Generate Documentation",
+      "label": "Auto-Doc: Generate Javadoc/Docstring",
       "type": "shell",
       "command": "python3",
       "args": [
@@ -12,18 +12,15 @@
         "--language",
         "${fileExtname}"
       ],
-      "group": {
-        "kind": "build",
-        "isDefault": false
-      },
+      "group": "build",
       "presentation": {
         "reveal": "silent",
         "panel": "shared"
       },
-      "problemMatcher": []
+      "detail": "Addresses Documentation Drift pain point"
     },
     {
-      "label": "AI: Scaffold Unit Tests",
+      "label": "Test-Scaffold: Create Unit Test",
       "type": "shell",
       "command": "bash",
       "args": [
@@ -31,14 +28,12 @@
         "${fileBasenameNoExtension}",
         "${fileDirname}"
       ],
-      "group": {
-        "kind": "test",
-        "isDefault": false
-      },
+      "group": "test",
       "presentation": {
         "reveal": "always",
         "panel": "new"
-      }
+      },
+      "detail": "Addresses Manual Boilerplate pain point"
     }
   ]
 }
