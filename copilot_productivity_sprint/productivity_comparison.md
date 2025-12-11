@@ -1,41 +1,30 @@
 # Productivity Comparison Report
 
 ## Overview
-This report quantifies the productivity impact of using an AI coding assistant (GitHub Copilot) versus manual coding for the defined benchmark tasks.
+This report quantifies the productivity impact of using an AI coding assistant (GitHub Copilot) versus manual coding. The data is derived from three benchmark tasks: Log Parsing (Python), User Component (React), and Data Analysis (SQL).
 
-## Metrics Summary
+## Comparative Metrics Table
 
-| Metric | Without AI (Baseline) | With AI (Copilot) | Difference | Impact |
-| :--- | :--- | :--- | :--- | :--- |
-| **Total Completion Time** | 54 minutes | 11 minutes | -43 minutes | **79.6% Reduction** |
-| **Avg Time per Task** | 18 minutes | 3.6 minutes | -14.4 minutes | **80% Faster** |
-| **Manual Keystrokes (Est.)** | High | Low | Significant | **Reduced Cognitive Load** |
-| **Context Switching** | Frequent (Docs/Search) | Minimal (IDE-bound) | N/A | **Improved Flow** |
+| Metric | Without AI (Baseline) | With AI (Copilot) | Difference |
+| :--- | :--- | :--- | :--- |
+| **Avg Completion Time (min)** | 18.0 min | 3.6 min | **-80%** |
+| **Total Lines of Code (LOC)** | 98 lines | 75 lines | **-23%** |
+| **Bugs / Test Failures** | 2 | 0 | **-100%** |
 
-## Detailed Task Breakdown
+## Detailed Analysis by Metric
 
-### 1. Log Parser (Python)
-* **Manual:** 22 mins. Struggled with Regex syntax.
-* **AI:** 4 mins. Regex was generated instantly.
-* **Speedup:** 5.5x faster.
+### 1. Completion Time (Efficiency)
+* **Result:** The AI workflow was roughly 5 times faster.
+* **Insight:** The greatest time reduction occurred in the SQL and Regex tasks, where the AI eliminated the need to consult external documentation (StackOverflow/Docs) for syntax verification.
 
-### 2. User Card (React)
-* **Manual:** 18 mins. Time spent on boilerplate and CSS decisions.
-* **AI:** 5 mins. Component structure and types generated in seconds.
-* **Speedup:** 3.6x faster.
+### 2. Lines of Code (Conciseness)
+* **Result:** AI-generated code was approximately 23% more concise.
+* **Insight:**
+    * *Manual:* Tended to use more verbose logic steps and extra whitespace for readability while drafting.
+    * *AI:* Utilized Python list comprehensions and more compact React functional component definitions immediately.
 
-### 3. Sales Analysis (SQL)
-* **Manual:** 14 mins. Syntax verification required for date functions.
-* **AI:** 2 mins. Natural language prompt converted directly to valid SQL.
-* **Speedup:** 7x faster.
-
-## Quality & Accuracy Observations
-
-| Metric | Observation |
-| :--- | :--- |
-| **Bugs / Syntax Errors** | **Manual:** 2 initial syntax errors (Regex group index, CSV newline). <br> **AI:** 0 syntax errors; logic worked on first run. |
-| **Code Style** | AI adhered to standard naming conventions (Snake case for Python, Camel case for JS) automatically. |
-| **Completeness** | Both approaches met acceptance criteria, but AI included error handling (try/except) more proactively in Python task. |
-
-## Conclusion
-The introduction of the AI assistant resulted in a dramatic reduction in coding time, primarily by eliminating boilerplate typing and the need to search external documentation for syntax. The most significant gains were observed in tasks requiring specific, strict syntax (Regex, SQL) where human memory often fails.
+### 3. Bugs & Quality (Accuracy)
+* **Result:** Manual coding resulted in 2 initial failures, while AI code ran successfully on the first attempt.
+* **Breakdown:**
+    * *Manual Failures:* 1 Regex grouping error (Python) and 1 missing CSV parameter.
+    * *AI Performance:* Zero syntax errors. The AI correctly predicted the need for `newline=''` in the CSV writer and correct Regex groups without prompting.
