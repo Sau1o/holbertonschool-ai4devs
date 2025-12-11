@@ -1,0 +1,44 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "AI: Generate Documentation",
+      "type": "shell",
+      "command": "python3",
+      "args": [
+        "${workspaceFolder}/automation/ai_doc_generator.py",
+        "--file",
+        "${file}",
+        "--language",
+        "${fileExtname}"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "silent",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "AI: Scaffold Unit Tests",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "${workspaceFolder}/automation/scaffold_tests.sh",
+        "${fileBasenameNoExtension}",
+        "${fileDirname}"
+      ],
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    }
+  ]
+}
