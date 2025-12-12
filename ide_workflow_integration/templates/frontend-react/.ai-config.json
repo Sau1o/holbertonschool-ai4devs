@@ -1,0 +1,15 @@
+{
+  "ai_assistant": {
+    "framework": "React",
+    "version": "18.x",
+    "rules": [
+      "Always use Functional Components",
+      "Prefer CSS Modules over inline styles",
+      "Enforce Prop-Types validation"
+    ],
+    "automation_triggers": {
+      "on_save": "lint --fix",
+      "on_commit": "npm run test"
+    }
+  }
+}
