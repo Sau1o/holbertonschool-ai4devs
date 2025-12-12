@@ -1,0 +1,14 @@
+ai_configuration:
+  language: python
+  framework: fastapi
+  style_guide: pep8
+  
+  code_generation:
+    typing: strict
+    docstrings: google_style
+    error_handling: explicit_try_except
+
+  automation_workflows:
+    - name: "Auto-Test Generation"
+      trigger: "function_creation"
+      action: "suggest_pytest_template"
