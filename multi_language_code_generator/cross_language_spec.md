@@ -36,3 +36,84 @@ The goal is to produce a linear ordering of packages such that for every depende
   "api": ["db"],
   "db": []
 }
+```
+
+**expected Output:**
+```json
+{
+  "success": true,
+  "build_order": ["db", "api", "frontend"],
+  "error": null
+}
+```
+
+### Test Case 2: Diamond Dependency (Shared Core)
+**Input:**
+```json
+{
+  "app": ["lib_x", "lib_y"],
+  "lib_x": ["core"],
+  "lib_y": ["core"],
+  "core": []
+}
+```
+**Expected Output:**
+```json
+{
+  "success": true,
+  "build_order": ["core", "lib_x", "lib_y", "app"],
+  "error": null
+}
+```
+*(Note: `lib_x` and `lib_y` order may vary, but both must appear after `core` and before `app`).*
+
+### Test Case 3: Circular Dependency (Failure)
+**Input:**
+```json
+{
+  "A": ["B"],
+  "B": ["C"],
+  "C": ["A"]
+}
+```
+**Expected Output:**
+```json
+{
+  "success": false,
+  "build_order": null,
+  "error": "Cycle detected"
+}
+```
+
+### Test Case 4: Independent Groups (Disconnected)
+**Input:**
+```json
+{
+  "tools": ["utils"],
+  "utils": [],
+  "game": ["engine"],
+  "engine": []
+}
+```
+**Expected Output:**
+```json
+{
+  "success": true,
+  "build_order": ["utils", "tools", "engine", "game"],
+  "error": null
+}
+```
+
+### Test Case 5: Empty Project
+**Input:**
+```json
+{}
+```
+**Expected Output:**
+```json
+{
+  "success": true,
+  "build_order": [],
+  "error": null
+}
+```
