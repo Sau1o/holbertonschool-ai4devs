@@ -1,36 +1,27 @@
-"""
-Log file analyzer tool.
-"""
+import json
 
-def parse_log_file(filename):
-    error_count = 0
-    warnings = []
-
+def load_config(filepath):
+    """
+    Intended: Load a JSON configuration file and return a dictionary.
+    Should handle missing files gracefully by returning a default dict.
+    """
+    default_config = {"retries": 3, "timeout": 10}
+    
     try:
-        # Bug: File is opened but never explicitly closed if an error occurs 
-        # later in the block (no 'with' context manager used).
-        f = open(filename, 'r')
+        # Bug: Resource Leak. 'f' is opened but not closed if JSON parsing fails 
+        # or if an exception is raised before close() (which is missing entirely).
+        # Should use 'with open(...) as f:' context manager.
+        f = open(filepath, 'r')
+        data = f.read()
+        config = json.loads(data)
         
-        lines = f.readlines()
+        # Bug: Dictionary merge logic error. 
+        # This overwrites user config with defaults instead of filling in missing keys.
+        # Intended: user config overrides default.
+        config.update(default_config) 
         
-        for line in lines:
-            # Intended: find lines starting with specific codes
-            if line.startswith("ERROR"):
-                error_count += 1
-            elif line.startswith("WARN"):
-                # Bug: Appending the whole line including newline char might break formatting later
-                warnings.append(line)
-                
-            # Bug: Potential mutable default argument logic if this function 
-            # were more complex, but here: logic error in processing timestamps.
-            # Assuming log format "LEVEL TIMESTAMP MSG".
-            parts = line.split(" ")
-            if len(parts) < 3:
-                continue
-                
-        return {"errors": error_count, "warnings": warnings}
-        
+        return config
     except FileNotFoundError:
-        print("Log file not found.")
-        return None
-    # Missing f.close() here implies resource leak
+        return default_config
+    except json.JSONDecodeError:
+        return default_config
