@@ -1,3 +1,10 @@
+"""
+INTENDED BEHAVIOR:
+This function should calculate the ROI (Return on Investment).
+If 'investments' sum to 0, it must handle the division gracefully (return 0.0),
+instead of crashing.
+"""
+
 def calculate_roi(investments, returns):
     """
     Calculates Return on Investment (ROI) for a list of projects.
