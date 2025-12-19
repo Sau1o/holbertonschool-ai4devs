@@ -1,3 +1,8 @@
+/*
+ * INTENDED BEHAVIOR:
+ * Verify token by checking EXACT string identity.
+ * Must distinguish between different strings even if they look like scientific numbers (0e...).
+ */
 <?php
 
 class PasswordReset {
