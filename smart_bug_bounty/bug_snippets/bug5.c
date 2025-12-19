@@ -1,20 +1,17 @@
 #include <stdio.h>
 #include <string.h>
 
-void process_user_input() {
-    char buffer[50];
+void get_client_name() {
+    char name_buffer[32];
     
-    printf("Enter your username: ");
+    printf("Please enter your client ID name: ");
     
-    // Bug: 'gets' is extremely dangerous and deprecated. 
-    // It does not check buffer boundaries, leading to Buffer Overflow 
-    // if input is longer than 50 characters.
-    gets(buffer);
+    // Bug: Buffer Overflow Vulnerability.
+    // 'gets' reads input until a newline is found, regardless of buffer size.
+    // If user enters > 32 chars, it overwrites the stack memory, potentially
+    // causing a crash or allowing arbitrary code execution.
+    // Intended: Use fgets() to limit input to sizeof(name_buffer).
+    gets(name_buffer);
     
-    printf("Welcome, %s\n", buffer);
-}
-
-int main() {
-    process_user_input();
-    return 0;
+    printf("Processing client: %s\n", name_buffer);
 }
