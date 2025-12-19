@@ -1,39 +1,29 @@
 /**
- * User Data Fetcher Service
- * Fetches user profiles from a mock API.
+ * Async Data Aggregator
+ * Intended: Fetch details for a list of IDs sequentially or concurrently 
+ * and return the complete list of details.
  */
 
-const fetch = require('node-fetch'); // Hypothetical import
+const fetch = require('node-fetch'); // Mock import
 
-async function getUserIds() {
-    return [101, 102, 103, 104];
-}
+async function getDetails(ids) {
+    const results = [];
 
-async function fetchUserProfile(id) {
-    // Simulating API call
-    return new Promise(resolve => setTimeout(() => resolve({ id, name: `User${id}` }), 100));
-}
-
-async function getAllProfiles() {
-    const ids = await getUserIds();
-    const profiles = [];
-
-    // BUG: forEach expects a synchronous function. 
-    // The async callback here will just fire off promises that aren't awaited by forEach.
-    // 'profiles' will be returned empty before the callbacks complete.
+    // Bug: Array.forEach does not await async callbacks.
+    // The function will return 'results' (empty) immediately, 
+    // while the fetch operations run in the background detached.
     ids.forEach(async (id) => {
         try {
-            const profile = await fetchUserProfile(id);
-            profiles.push(profile);
-            console.log(`Fetched ${profile.name}`);
-        } catch (error) {
-            console.error("Error fetching user", id);
+            const data = await fetch(`https://api.mock.com/items/${id}`);
+            const json = await data.json();
+            results.push(json);
+        } catch (e) {
+            console.error(e);
         }
     });
 
-    console.log("Finished fetching profiles.");
-    return profiles; 
+    return results; // Returns [] immediately
 }
 
-// Execution
-getAllProfiles().then(data => console.log("Final List:", data));
+// Usage
+getDetails([1, 2, 3]).then(console.log);
