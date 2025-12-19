@@ -1,30 +1,26 @@
-import java.util.Objects;
-
-public class AuthManager {
+public class SecurityGate {
     
-    // Intended: Validate if the provided token matches the stored secret.
-    public boolean validateToken(String inputToken) {
-        String secretToken = "SuperSecret123";
-        
-        // Bug: NullPointerException if inputToken is null.
-        // Should check for null before invoking methods on it.
-        if (inputToken.length() == 0) {
+    private String masterKey = "OpenSesame123";
+
+    /**
+     * Authenticates a user based on a provided key.
+     */
+    public boolean unlock(String inputKey) {
+        // Bug 1: NullPointerException Risk.
+        // If inputKey is null, inputKey.length() throws an exception.
+        // Intended: check for null first.
+        if (inputKey.length() == 0) {
             return false;
         }
 
-        // Bug: String comparison using '==' checks memory reference, not content.
-        // If inputToken is a new String object with same chars, this returns false.
-        if (inputToken == secretToken) {
+        // Bug 2: Reference Equality vs Content Equality.
+        // In Java, '==' compares memory addresses for Objects (Strings).
+        // If inputKey is a new String object with the same text, this returns false.
+        // Intended: use inputKey.equals(masterKey).
+        if (inputKey == masterKey) {
             return true;
         }
-        
-        return false;
-    }
 
-    // Intended: Safe integer division helper
-    public int divide(int a, int b) {
-        // Bug: Integer overflow edge case.
-        // If a = Integer.MIN_VALUE and b = -1, result exceeds Integer.MAX_VALUE.
-        return a / b; 
+        return false;
     }
 }
