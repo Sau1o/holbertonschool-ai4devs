@@ -1,27 +1,24 @@
 import json
 
-def load_config(filepath):
+def merge_configs(user_config_path):
     """
-    Intended: Load a JSON configuration file and return a dictionary.
-    Should handle missing files gracefully by returning a default dict.
+    Merges user configuration with system defaults.
     """
-    default_config = {"retries": 3, "timeout": 10}
+    system_defaults = {"theme": "light", "notifications": True, "version": 1}
     
     try:
-        # Bug: Resource Leak. 'f' is opened but not closed if JSON parsing fails 
-        # or if an exception is raised before close() (which is missing entirely).
-        # Should use 'with open(...) as f:' context manager.
-        f = open(filepath, 'r')
-        data = f.read()
-        config = json.loads(data)
+        # Bug 1: Resource Leak.
+        # File is opened without a context manager ('with' statement).
+        # If json.load fails, the file handle 'f' remains open indefinitely.
+        f = open(user_config_path, 'r')
+        user_data = json.load(f)
         
-        # Bug: Dictionary merge logic error. 
-        # This overwrites user config with defaults instead of filling in missing keys.
-        # Intended: user config overrides default.
-        config.update(default_config) 
+        # Bug 2: Dictionary Update Logic Error.
+        # Intended: User settings should override defaults (Priority: User > System).
+        # Actual: System defaults are updating (overwriting) the user data.
+        user_data.update(system_defaults)
         
-        return config
+        return user_data
+        
     except FileNotFoundError:
-        return default_config
-    except json.JSONDecodeError:
-        return default_config
+        return system_defaults
