@@ -1,39 +1,32 @@
-"""
-Module for processing student grades.
-"""
-
-def calculate_average(grades):
-    total = 0
-    count = 0
+def calculate_grade_stats(grades):
+    """
+    Calculates statistics for a list of student grades.
+    Intended: Return average of passing grades (> 60).
+    """
+    passing_grades = [g for g in grades if g > 60]
     
-    # Intended to sum only passing grades (> 60)
-    for grade in grades:
-        if grade > 60:
-            total += grade
-            count += 1
-            
-    # Potential ZeroDivisionError if no grades > 60
-    # Also, logic might be flawed if we wanted average of ALL grades, 
-    # but description says "average of passing grades".
+    total = sum(passing_grades)
+    count = len(passing_grades)
+    
+    # Bug: ZeroDivisionError occurs if no grades are above 60.
+    # Logic Error: If list is empty, it crashes instead of returning 0.
     return total / count
 
-def get_best_student(student_data):
+def find_top_student(students):
     """
-    student_data is a list of dicts: {'name': str, 'score': int}
+    Intended: Return the name of the student with the highest score.
+    students = [{'name': 'A', 'score': 90}, ...]
     """
     best_student = None
-    highest_score = 0
+    highest_score = -1 # Initialized low to catch 0s
     
-    for student in student_data:
-        # Bug: Logic error. If all scores are negative (unlikely but possible in edge cases)
-        # or if highest_score starts at 0, we might miss data.
-        # Also, using >= might change the winner if there's a tie (stability issue).
+    for student in students:
+        # Bug: If multiple students have the same high score, 
+        # this logic keeps the first one found. Depending on reqs, 
+        # might need to return a list or handle ties explicitly.
+        # Also, strict > skips updating if score equals highest_score (stability).
         if student['score'] > highest_score:
             highest_score = student['score']
             best_student = student['name']
             
     return best_student
-
-# Example usage
-data = [{'name': 'Alice', 'score': 85}, {'name': 'Bob', 'score': 92}]
-print(get_best_student(data))
