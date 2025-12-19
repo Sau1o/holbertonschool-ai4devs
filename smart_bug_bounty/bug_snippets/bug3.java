@@ -1,3 +1,8 @@
+/**
+ * INTENDED BEHAVIOR:
+ * 1. Authenticate only if inputKey matches masterKey exactly (content check).
+ * 2. Return false immediately if inputKey is null, without crashing.
+ */
 public class SecurityGate {
     
     private String masterKey = "OpenSesame123";
