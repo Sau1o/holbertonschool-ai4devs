@@ -1,32 +1,13 @@
-def calculate_grade_stats(grades):
+def calculate_roi(investments, returns):
     """
-    Calculates statistics for a list of student grades.
-    Intended: Return average of passing grades (> 60).
+    Calculates Return on Investment (ROI) for a list of projects.
     """
-    passing_grades = [g for g in grades if g > 60]
+    total_investment = sum(investments)
+    total_return = sum(returns)
     
-    total = sum(passing_grades)
-    count = len(passing_grades)
+    # Bug: Logic Error / ZeroDivisionError
+    # If the list 'investments' is empty or sums to 0, this crashes.
+    # Intended: If investment is 0, ROI should be 0.0 (or handled gracefully).
+    roi = (total_return - total_investment) / total_investment
     
-    # Bug: ZeroDivisionError occurs if no grades are above 60.
-    # Logic Error: If list is empty, it crashes instead of returning 0.
-    return total / count
-
-def find_top_student(students):
-    """
-    Intended: Return the name of the student with the highest score.
-    students = [{'name': 'A', 'score': 90}, ...]
-    """
-    best_student = None
-    highest_score = -1 # Initialized low to catch 0s
-    
-    for student in students:
-        # Bug: If multiple students have the same high score, 
-        # this logic keeps the first one found. Depending on reqs, 
-        # might need to return a list or handle ties explicitly.
-        # Also, strict > skips updating if score equals highest_score (stability).
-        if student['score'] > highest_score:
-            highest_score = student['score']
-            best_student = student['name']
-            
-    return best_student
+    return roi * 100
