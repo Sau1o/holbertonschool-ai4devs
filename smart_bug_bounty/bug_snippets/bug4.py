@@ -1,3 +1,8 @@
+"""
+INTENDED BEHAVIOR:
+1. Load user config and merge it into system defaults (User > Defaults).
+2. Ensure the file is closed properly even if JSON parsing fails.
+"""
 import json
 
 def merge_configs(user_config_path):
