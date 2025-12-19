@@ -1,3 +1,8 @@
+/*
+ * INTENDED BEHAVIOR:
+ * Read a client name from input. 
+ * MUST restrict input size to buffer limits (32 chars) to prevent memory corruption.
+ */
 #include <stdio.h>
 #include <string.h>
 
