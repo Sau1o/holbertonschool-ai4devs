@@ -1,4 +1,9 @@
-// Service to update user statuses
+/**
+ * INTENDED BEHAVIOR:
+ * This function must update all users in the database strictly one by one 
+ * (or all together) and return the log ONLY after all updates are finished.
+ */
+
 const db = require('./mockDatabase');
 
 async function updateAllUsers(userIds) {
