@@ -1,11 +1,14 @@
-# Output Task 1: AI Review Artifacts
+# Output Task 1 (Revised): AI Review Artifacts
 
 ## File: ai_review_log.md
 
 # AI Review Log
 
 **Review Date:** 2025-12-26
-**Reviewers (Personas):** Security Bot, Performance Optimizer, Maintainability Guardian
+**Reviewers (Personas):**
+- 🛡️ **Security Sentinel:** Focus on input validation, DoS prevention, and sanitization.
+- ⚡ **Performance Profiler:** Focus on algorithm complexity and memory usage.
+- 🧹 **Code Janitor:** Focus on maintainability, naming conventions, and PEP-8 standards.
 
 ---
 
@@ -13,54 +16,80 @@
 
 ### src/api/routes.py
 
-- **(Line 17) [Security/DoS]:** `search_query = request.args.get('q', '').lower()`
-  *Critique:* Não há limitação de comprimento para o parâmetro `q`. Uma string extremamente longa pode causar consumo excessivo de CPU/Memória durante a filtragem.
-  *Suggestion:* Limitar a entrada a 100 caracteres: `request.args.get('q', '')[:100].lower()`.
+- **(Line 17) [🛡️ Security]: Unbounded Input Length**
+  - *Critique:* `request.args.get('q', '')` aceita strings de tamanho infinito, possibilitando ataques de exaustão de memória.
+  - *Action:* Limite o tamanho da entrada antes do processamento.
+  - *Fix:* `search_query = request.args.get('q', '')[:100].lower()`
 
-- **(Line 18) [Performance/Security]:** `limit = int(request.args.get('limit', 10))`
-  *Critique:* Falta um "hard cap" (teto máximo) para o limite. Um usuário mal-intencionado poderia solicitar `limit=1000000`, sobrecarregando a resposta JSON.
-  *Suggestion:* Implementar `min(int(request.args.get('limit', 10)), 100)`.
+- **(Line 18) [🛡️ Security]: Missing Pagination Cap**
+  - *Critique:* `limit` não possui teto máximo. Um atacante pode requisitar `limit=1000000`, travando o servidor na serialização JSON.
+  - *Action:* Imponha um limite rígido (Hard Cap).
+  - *Fix:* `limit = min(int(request.args.get('limit', 10)), 50)`
 
-- **(Line 26-29) [Performance]:** `filtered_tasks = [task for task in tasks_db ...]`
-  *Critique:* A filtragem é realizada via *list comprehension* em memória (O(N)). Para datasets grandes, isso bloqueará a thread principal do Flask.
-  *Suggestion:* Se o banco for mockado, ok. Para produção, mover esta lógica para uma query de banco de dados (`WHERE title ILIKE...`).
+- **(Line 21) [🧹 Maintainability]: Broad Exception Handling**
+  - *Critique:* O bloco `except ValueError:` envolve tanto a obtenção da query quanto a conversão. Isso pode mascarar erros de lógica no `request.args`.
+  - *Action:* Reduza o escopo do `try/except` apenas para as conversões de tipo.
 
-- **(Line 21) [Maintainability]:** `except ValueError:`
-  *Critique:* O bloco try/except cobre apenas a conversão de int, mas envolve a busca do query param também.
-  *Suggestion:* Estreitar o escopo do try/except apenas para as linhas de conversão `int()`.
+- **(Line 24) [⚡ Performance]: Global Variable Direct Access**
+  - *Critique:* `filtered_tasks = tasks_db` cria uma referência direta. Se `tasks_db` for mutável, alterações aqui afetarão o "banco de dados" global.
+  - *Action:* Trabalhe com uma cópia ou use um método de acesso imutável.
 
-- **(Line 24) [Architecture]:** `filtered_tasks = tasks_db`
-  *Critique:* Acesso direto à variável global `tasks_db` dentro da rota viola o princípio de separação de camadas.
-  *Suggestion:* Mover o acesso aos dados para uma camada de `Service` ou `Repository` (ex: `TaskService.find_all(query=...)`).
+- **(Line 27) [⚡ Performance]: O(N) Filtering in Python**
+  - *Critique:* `[task for task in tasks_db if ...]` carrega todos os objetos em memória para filtrar. Em produção, isso é insustentável.
+  - *Action:* Mover esta lógica para a camada de banco de dados (`WHERE` clause) assim que possível.
+
+- **(Line 28) [🛡️ Security]: Search Algorithm Robustness**
+  - *Critique:* A busca `in task['title']` é suscetível a falhas se o campo `title` for `None` no banco de dados, gerando `AttributeError`.
+  - *Action:* Garanta que os campos existam ou use acesso seguro.
+  - *Fix:* `(task.get('title') or '').lower()`
+
+- **(Line 33) [🧹 Maintainability]: Magic Numbers**
+  - *Critique:* O valor default `10` e `0` estão hardcoded dentro da rota.
+  - *Action:* Extraia para constantes no topo do arquivo ou um arquivo de config.
+  - *Fix:* `DEFAULT_LIMIT = 10`, `DEFAULT_OFFSET = 0`
 
 ### src/core/utils.py
 
-- **(Line 1) [Maintainability/Type Hinting]:** `def paginate_data(data_list, limit, offset):`
-  *Critique:* Assinatura da função não possui Type Hints.
-  *Suggestion:* Atualizar para: `def paginate_data(data_list: list, limit: int, offset: int) -> list:`.
+- **(Line 1) [🧹 Maintainability]: Missing Type Hints**
+  - *Critique:* A assinatura `def paginate_data(data_list, limit, offset)` dificulta a leitura e o uso de ferramentas de linting estático.
+  - *Action:* Adicione Type Hints completos.
+  - *Fix:* `def paginate_data(data_list: list[dict], limit: int, offset: int) -> list[dict]:`
 
-- **(Line 5) [Correctness]:** `if offset < 0 or limit < 1:`
-  *Critique:* Retornar uma lista vazia silenciosamente pode confundir o consumidor da API em caso de erro de configuração.
-  *Suggestion:* Considerar levantar uma exceção customizada ou garantir que os validadores na rota impeçam que valores inválidos cheguem aqui.
+- **(Line 6) [⚡ Performance]: List Slicing Memory**
+  - *Critique:* `data_list[offset : offset + limit]` cria uma *nova* lista na memória (Shallow Copy).
+  - *Action:* Se a lista for gigante, considere usar `itertools.islice` para retornar um iterador sem duplicar dados.
+
+- **(Line 6) [🧹 Maintainability]: Silent Failure**
+  - *Critique:* Se `limit` for negativo aqui, o slicing retorna lista vazia sem aviso, o que dificulta o debug.
+  - *Action:* Adicione um log de aviso ou levante erro se os parâmetros internos forem inválidos.
+
+### tests/test_routes.py
+
+- **(Line 8) [🧹 Maintainability]: Test Isolation**
+  - *Critique:* `self.mock_data_len = 20` assume estado global. Testes devem criar seu próprio estado (fixture) para evitar *flakiness*.
+  - *Action:* Use `pytest fixtures` ou configure o `tasks_db` limpo no `setUp`.
+
+- **(Line 23) [⚡ Performance]: Loop inside Test**
+  - *Critique:* `for task in data['data']: self.assertTrue(...)` pode ser lento se o retorno for grande.
+  - *Action:* Verifique apenas amostras ou use asserções de conjunto.
 
 ---
 
 ## 2. Global Feedback
 
-### Performance Analysis
-O código atual não é escalável para grandes volumes de dados. A paginação ocorre **após** carregar e filtrar todos os dados em memória (Slicing on Application Layer).
-- **Recomendação Crítica:** A paginação e filtragem devem ser empurradas para a camada de persistência (DB) assim que possível. O uso atual de `paginate_data` é aceitável apenas para protótipos ou listas muito pequenas (< 1000 itens).
+### 🛡️ Security Assessment
+O código atual é funcional para protótipos, mas **inseguro para produção pública**. A falta de validação rigorosa nos parâmetros de entrada (`q`, `limit`, `offset`) expõe a API a ataques simples de negação de serviço (DoS) via consumo de recursos.
+**Sugestão Mandatória:** Implementar uma camada de validação usando uma biblioteca como **Pydantic** ou **Marshmallow** antes de processar qualquer lógica de rota.
 
-### Security Recommendations
-A validação de entrada (Input Sanitization) está fraca.
-- Adicionar validação de esquema (ex: usando Pydantic ou Marshmallow) para garantir que `limit` e `offset` sejam positivos e dentro de faixas aceitáveis antes de processar a lógica de negócio.
+### ⚡ Performance & Scalability
+A estratégia de **"Application-Level Pagination"** (carregar tudo, filtrar no Python, paginar depois) é um anti-pattern crítico.
+**Sugestão:** Mesmo usando um Mock DB, simule o comportamento correto: a função de repositório deve aceitar `limit` e `offset` e retornar apenas os dados necessários.
+- *Atual:* `paginate_data(filter(all_data))`
+- *Ideal:* `db.find(filter_criteria, limit=10, offset=0)`
 
-### Code Structure & Maintainability
-A lógica de negócio (filtragem) vazou para o controlador (`routes.py`).
-- **Refatoração Sugerida:** Criar um arquivo `src/services/task_service.py`.
-- Mover a lógica de filtragem `if search_query...` para dentro desse serviço. Isso facilitará testes unitários isolados da lógica de busca sem depender do contexto HTTP do Flask.
-
-### Test Coverage
-Os testes cobrem os "Caminhos Felizes" e erros básicos de tipo, mas faltam testes de borda:
-- Testar `offset` maior que o total de itens (deve retornar array vazio).
-- Testar caracteres especiais no parâmetro `q` (SQL Injection não se aplica aqui por ser memória, mas XSS ou quebra de regex podem ser preocupações futuras).
+### 🧹 Maintainability & Code Quality
+A lógica de negócio (filtragem por string) está acoplada à rota Flask. Isso viola o **Single Responsibility Principle (SRP)**.
+**Refatoração:**
+1. Criar `src/services/task_service.py`.
+2. Mover a lógica `if search_query...` para lá.
+3. A rota deve apenas chamar `TaskService.get_tasks(...)` e retornar JSON.
