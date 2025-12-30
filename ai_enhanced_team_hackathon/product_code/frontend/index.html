@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>V2W Agent - MVP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h1 class="text-2xl font-bold mb-4 text-gray-800">Voice-to-Workflow Agent</h1>
+        <p class="text-sm text-gray-500 mb-6">Type a command to trigger your automation hooks.</p>
+
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="command">Command</label>
+            <textarea id="commandInput" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="3" placeholder="e.g., Add a new lead for John Doe..."></textarea>
+        </div>
+
+        <button onclick="sendCommand()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150">
+            Process Command
+        </button>
+
+        <div id="resultArea" class="mt-6 hidden">
+            <h3 class="text-sm font-semibold text-gray-600 mb-2">AI Parsed Output:</h3>
+            <pre id="jsonOutput" class="bg-gray-900 text-green-400 p-4 rounded text-xs overflow-x-auto"></pre>
+        </div>
+    </div>
+
+    <script>
+        async function sendCommand() {
+            const text = document.getElementById('commandInput').value;
+            const resultArea = document.getElementById('resultArea');
+            const jsonOutput = document.getElementById('jsonOutput');
+
+            if (!text) {
+                alert("Please enter a command.");
+                return;
+            }
+
+            // Show loading state
+            jsonOutput.textContent = "Processing...";
+            resultArea.classList.remove('hidden');
+
+            try {
+                const response = await fetch('http://localhost:8000/api/process', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        user_id: "demo-user-123",
+                        text: text
+                    })
+                });
+
+                const data = await response.json();
+                jsonOutput.textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                jsonOutput.textContent = "Error: Could not connect to backend.\n" + error;
+            }
+        }
+    </script>
+</body>
+</html>
